@@ -19,7 +19,10 @@ namespace CinemaHub_BLL.Services.Movie
         Task<List<MovieDto>> GetAllMoviesWithCinemaAsync();
         Task<bool> DeleteMovieByNameAsync(string title);
 
-        Task<List<MovieDto>> SuggestMoviesByFirstLetterAsync(char firstLetter);
+        Task<List<MovieDto>> SearchMoviesByTitleAsync(string title);
+
+        Task<List<MovieDto>> SuggestMoviesByTitlePatternAsync(string pattern);
+
 
     }
 }

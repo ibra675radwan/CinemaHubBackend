@@ -9,6 +9,7 @@ using CinemaHub_BLL.wrapping;
 using CinemaHub_DAL.Models;
 using CinemaHub_DAL.Repositories.Movies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CinemaHub.Controllers
 {
@@ -21,8 +22,9 @@ namespace CinemaHub.Controllers
         private readonly iCinemaService _cinemaService;
         private readonly iMoviesRepositories _movieRepository;
         private readonly IMapper _mapper;
+        private readonly CinemaHubContext _context;
 
-        public MovieController(iMovieService movieService, iGenreService iGenreService, iMoviesRepositories iMoviesRepositories ,iCinemaService iCinemaService, IMapper mapper) : base(movieService )
+        public MovieController(iMovieService movieService, iGenreService iGenreService, iMoviesRepositories iMoviesRepositories, iCinemaService iCinemaService, IMapper mapper) : base(movieService)
         {
             _movieService = movieService;
             _genreService = iGenreService;
@@ -109,7 +111,7 @@ namespace CinemaHub.Controllers
             {
                 var movies = await _movieService.GetMoviesByCinemaNameAsync(cinemaName);
                 result.Data = movies;
-                
+
             }
             catch (Exception ex)
             {
@@ -178,19 +180,43 @@ namespace CinemaHub.Controllers
             return result;
         }
 
-        [HttpGet("suggest/{firstLetter}")]
-        public async Task<IActionResult> SuggestMoviesByFirstLetter(char firstLetter)
+        [HttpGet("search")]
+        [Produces("application/json", Type = typeof(IEnumerable<MovieDto>))]
+        public async Task<IActionResult> SearchMovies([FromQuery] string title)
         {
-            var movies = await _movieService.SuggestMoviesByFirstLetterAsync(firstLetter);
+            if (string.IsNullOrWhiteSpace(title))
+                return BadRequest("Title cannot be empty or whitespace.");
+
+            var movies = await _movieService.SearchMoviesByTitleAsync(title);
 
             if (movies == null || !movies.Any())
-                return NotFound("No movies found for the given letter.");
+                return NotFound("No movies found matching the search criteria.");
 
             return Ok(movies);
         }
 
 
+        [HttpGet("suggestions")]
+        public async Task<IActionResult> SuggestMovies([FromQuery] string pattern)
+        {
+            if (string.IsNullOrWhiteSpace(pattern))
+                return BadRequest("Pattern cannot be empty or whitespace.");
 
+            if (pattern.Length < 1)
+                return BadRequest("Pattern must have at least 1 character.");
+
+            var movies = await _movieService.SuggestMoviesByTitlePatternAsync(pattern);
+
+            if (movies == null || !movies.Any())
+                return NotFound("No movies found matching the suggestion criteria.");
+
+            return Ok(movies);
+        }
     }
 }
+
+       
+
+
+
 

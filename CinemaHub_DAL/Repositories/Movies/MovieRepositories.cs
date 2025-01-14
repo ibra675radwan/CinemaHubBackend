@@ -62,10 +62,19 @@ namespace CinemaHub_DAL.Repositories.Movies
                 .ToListAsync();
         }
 
-        public async Task<List<Movie>> SuggestMoviesByFirstLetterAsync(char firstLetter)
+       
+
+        public async Task<List<Movie>> SearchMoviesByTitleAsync(string title)
         {
             return await _context.Movies
-                .Where(m => m.Title.StartsWith(firstLetter.ToString(), StringComparison.OrdinalIgnoreCase))
+                .Where(m => m.Title.ToLower().Contains(title.ToLower()))
+                .ToListAsync();
+        }
+        public async Task<List<Movie>> SuggestMoviesByTitlePatternAsync(string pattern)
+        {
+            return await _context.Movies
+                .Where(m => m.Title.Length > 1 &&
+                            m.Title.Substring(1).ToLower().StartsWith(pattern.ToLower())) // Matches second letter onwards
                 .ToListAsync();
         }
 

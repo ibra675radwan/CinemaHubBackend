@@ -115,11 +115,22 @@ namespace CinemaHub_BLL.Services.Movie
             return movieDTOs;
         }
 
-        public async Task<List<MovieDto>> SuggestMoviesByFirstLetterAsync(char firstLetter)
+        public async Task<List<MovieDto>> SearchMoviesByTitleAsync(string title)
         {
-            var movies = await _repository.SuggestMoviesByFirstLetterAsync(firstLetter);
-            return _mapper.Map<List<MovieDto>>(movies); // Use AutoMapper if applicable
+            var movies = await _repository.SearchMoviesByTitleAsync(title);
+            return _mapper.Map<List<MovieDto>>(movies); // Assuming AutoMapper is used for mapping
         }
+
+        public async Task<List<MovieDto>> SuggestMoviesByTitlePatternAsync(string pattern)
+        {
+            var movies = await _repository.SuggestMoviesByTitlePatternAsync(pattern);
+
+            if (movies == null || !movies.Any())
+                return new List<MovieDto>(); // Return an empty list if no matches are found.
+
+            return _mapper.Map<List<MovieDto>>(movies); // Map to DTO.
+        }
+
 
 
 

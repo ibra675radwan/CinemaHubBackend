@@ -18,7 +18,8 @@ namespace CinemaHub_DAL.Repositories.Movies
         Task<bool> DeleteMovieByNameAsync(string title);
         Task<List<Movie>> GetAllMoviesWithCinemaAsync();
 
-        Task<List<Movie>> SuggestMoviesByFirstLetterAsync(char firstLetter);
+        Task<List<Movie>> SearchMoviesByTitleAsync(string title);
+        Task<List<Movie>> SuggestMoviesByTitlePatternAsync(string pattern);
 
 
     }
