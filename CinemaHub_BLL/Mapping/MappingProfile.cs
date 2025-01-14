@@ -69,6 +69,7 @@ namespace CinemaHub_BLL.Mapping
 
             CreateMap<RoleDto, Role>().ReverseMap();
             CreateMap<GenreDTO, Genre>().ReverseMap();
+            CreateMap<Genre, GenreDTO>().ReverseMap();
             CreateMap<Userwithcinema, UserWithCinemaDTO>().ReverseMap();
 
         }

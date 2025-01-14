@@ -76,6 +76,52 @@ namespace CinemaHub_BLL.Services.Movie
             await _repository.AddMovieAsync(movie);
         }
 
+        public async Task<List<MovieDto>> GetMoviesByCinemaNameAsync(string cinemaName)
+        {
+            var movies = await _repository.GetMoviesByCinemaNameAsync(cinemaName);
+
+
+
+
+
+
+            return _mapper.Map<List<MovieDto>>(movies);
+        }
+
+        public async Task<bool> DeleteMovieByNameAsync(string title)
+        {
+            return await _repository.DeleteMovieByNameAsync(title);
+        }
+
+        public async Task<List<MovieDto>> GetAllMoviesWithCinemaAsync()
+        {
+            var movies = await _repository.GetAllMoviesWithCinemaAsync();
+
+            // Map movies to MovieDTO, including CinemaName and Genre
+            var movieDTOs = movies.Select(movie => new MovieDto
+            {
+                MovieId = movie.MovieId,
+                Title = movie.Title,
+                ReleaseDate = movie.ReleaseDate,
+                Duration = movie.Duration,
+                Rating = movie.Rating,
+                Description = movie.Description,
+                PosterUrl = movie.PosterUrl,
+                CinemaName = movie.Cinema != null ? movie.Cinema.Name : null,
+               
+
+            }).ToList();
+
+            return movieDTOs;
+        }
+
+        public async Task<List<MovieDto>> SuggestMoviesByFirstLetterAsync(char firstLetter)
+        {
+            var movies = await _repository.SuggestMoviesByFirstLetterAsync(firstLetter);
+            return _mapper.Map<List<MovieDto>>(movies); // Use AutoMapper if applicable
+        }
+
+
 
     }
 }

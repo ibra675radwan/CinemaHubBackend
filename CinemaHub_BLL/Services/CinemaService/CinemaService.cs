@@ -109,5 +109,12 @@ namespace CinemaHub_BLL.Services.CinemaService
         }
 
 
+        public async Task<bool> DeleteCinemaByNameAsync(string name)
+        {
+            return await _iCinemaRepositorie.DeleteCinemaByNameAsync(name);
+        }
+
+
+
     }
 }

@@ -31,17 +31,26 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
     };
 });
+
+// Add CORS policies
 builder.Services.AddCors(options =>
 {
+    // Policy for your Angular app
     options.AddPolicy("AllowAngularApp", policy =>
     {
         policy.WithOrigins("http://localhost:4200") // Your Angular app's running domain
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
+
+    // Policy to allow all origins (added here)
+    options.AddPolicy("AllowAllOrigins", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
 });
-
-
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -49,7 +58,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAuthorization();
 builder.Services.AddHttpContextAccessor();
-
 
 var app = builder.Build();
 
@@ -60,10 +68,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseStaticFiles();
 app.UseHttpsRedirection();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Use CORS
+app.UseCors("AllowAllOrigins"); // Use the "AllowAllOrigins" policy here for development purposes
+
 app.MapControllers();
-app.UseCors("AllowAngularApp");
 app.Run();

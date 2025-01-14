@@ -9,7 +9,7 @@ public partial class Movie
 
     public string? Title { get; set; }
 
-    public DateOnly? ReleaseDate { get; set; }
+    public string? ReleaseDate { get; set; }
 
     public int? Duration { get; set; }
 
@@ -22,6 +22,10 @@ public partial class Movie
     public string? PosterUrl { get; set; }
 
     public int? CinemaId { get; set; }
+
+    public string? ShowTime { get; set; }
+
+    public string? Shortdescription { get; set; }
 
     public virtual Cinema? Cinema { get; set; }
 

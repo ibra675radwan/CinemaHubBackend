@@ -36,8 +36,6 @@ public partial class CinemaHubContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     public virtual DbSet<Userwithcinema> Userwithcinemas { get; set; }
-    public object UserWithCinemas { get; internal set; }
-    public object UserWithCinema { get; internal set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -100,7 +98,15 @@ public partial class CinemaHubContext : DbContext
             entity.Property(e => e.Rating)
                 .HasColumnType("decimal(2, 1)")
                 .HasColumnName("rating");
-            entity.Property(e => e.ReleaseDate).HasColumnName("release_date");
+            entity.Property(e => e.ReleaseDate)
+                .HasMaxLength(50)
+                .HasColumnName("release_date");
+            entity.Property(e => e.Shortdescription)
+                .HasColumnType("text")
+                .HasColumnName("shortdescription");
+            entity.Property(e => e.ShowTime)
+                .HasMaxLength(50)
+                .HasColumnName("showTime");
             entity.Property(e => e.Title)
                 .HasMaxLength(100)
                 .HasColumnName("title");

@@ -44,6 +44,20 @@ namespace CinemaHub_DAL.Repositories.CinemA
             return await _context.Cinemas.FirstOrDefaultAsync(c => c.Name == name);
         }
 
+        public async Task<bool> DeleteCinemaByNameAsync(string name)
+        {
+            var cinema = await _context.Cinemas.FirstOrDefaultAsync(c => c.Name == name);
+            if (cinema == null)
+            {
+                return false; // Cinema not found
+            }
+
+            _context.Cinemas.Remove(cinema);
+            await _context.SaveChangesAsync();
+            return true; // Cinema deleted
+        }
+
+
     }
-   
+
 }

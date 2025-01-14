@@ -13,7 +13,7 @@ namespace CinemaHub_BLL.DTO.Movie
 
         public string? Title { get; set; }
 
-        public DateOnly? ReleaseDate { get; set; }
+        public string? ReleaseDate { get; set; }
 
         public int? Duration { get; set; }
 
@@ -23,6 +23,11 @@ namespace CinemaHub_BLL.DTO.Movie
 
         public string? Description { get; set; }
         public string CinemaName { get; set; } = null!;
+        public string? ShowTime { get; set; }
+
+        public string? Shortdescription { get; set; }
+        public string? PosterUrl { get; set; } // Optional URL for the poster
+
 
 
 

@@ -16,6 +16,8 @@ namespace CinemaHub_DAL.Repositories.CinemA
 
         Task<Cinema?> GetCinemaWithUsersAsync(int cinemaId);
         Task<Cinema?> GetCinemaByNameAsync(string name);
+        Task<bool> DeleteCinemaByNameAsync(string name);
+
 
 
     }

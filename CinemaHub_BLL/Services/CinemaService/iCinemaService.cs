@@ -18,6 +18,8 @@ namespace CinemaHub_BLL.Services.CinemaService
         Task AddCinemaWithAdminAsync(CinemaDTO cinemaDto);
         Task<CinemaWithAdminDTO?> GetCinemaAdminDtoAsync(int cinemaId);
          Task<CinemaDTO?> GetCinemaByNameAsync(string name);
+        Task<bool> DeleteCinemaByNameAsync(string name);
+
 
 
 

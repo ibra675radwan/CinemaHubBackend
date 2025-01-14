@@ -14,5 +14,6 @@ namespace CinemaHub_BLL.DTO.Genre
 
         public string Name { get; set; } = null!;
 
+       
     }
 }

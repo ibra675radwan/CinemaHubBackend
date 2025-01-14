@@ -46,5 +46,44 @@ namespace CinemaHub.Controllers
             }
             return Ok(adminDto);
         }
+
+
+        [HttpGet("GetCinemaByName")]
+        public async Task<IActionResult> GetCinemaByName(string name)
+        {
+            try
+            {
+                var cinema = await _iCinemaService.GetCinemaByNameAsync(name);
+                if (cinema == null)
+                {
+                    return NotFound(new { message = $"Cinema with name '{name}' not found." });
+                }
+
+                return Ok(cinema);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An unexpected error occurred.", details = ex.Message });
+            }
+        }
+        [HttpDelete("DeleteCinemaByName")]
+        public async Task<IActionResult> DeleteCinemaByName(string name)
+        {
+            try
+            {
+                var result = await _iCinemaService.DeleteCinemaByNameAsync(name);
+                if (!result)
+                {
+                    return NotFound(new { message = $"Cinema with name '{name}' not found." });
+                }
+
+                return Ok(new { message = $"Cinema with name '{name}' deleted successfully." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An unexpected error occurred.", details = ex.Message });
+            }
+        }
+
     }
 }
